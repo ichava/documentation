@@ -1,0 +1,10 @@
+# Force LF line endings for shell scripts so Windows clones don't break
+# the shebang.
+*.sh    text eol=lf
+*.bash  text eol=lf
+
+# Treat config files as text (no normalisation surprises).
+*.json  text
+*.yml   text
+*.yaml  text
+*.md    text
