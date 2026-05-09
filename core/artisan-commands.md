@@ -45,7 +45,7 @@ php artisan ichava:info icons --package=X        # Icons in package
 php artisan ichava:info icons --search=home      # Search icons
 php artisan ichava:info languages                # List FTS languages
 php artisan ichava:info discover                 # Discover packages
-php artisan ichava:info stats                    # Comprehensive stats
+php artisan ichava:info stats                    # Full stats
 php artisan ichava:info status                   # Lifecycle status
 ```
 
@@ -94,6 +94,26 @@ php artisan ichava:cleanup-logs                  # delete logs older than retent
 php artisan ichava:cleanup-logs --days=14        # override the retention window (one-off)
 php artisan ichava:cleanup-logs --dry-run        # report what would be deleted, change nothing
 ```
+
+### `ichava:update`
+
+Pulls a fresh copy of an upstream icon set from a GitHub archive and writes it to a destination directory inside your project. Used by icon packs that mirror an external repo (`tabler/tabler-icons`, `Keenthemes/metronic-tailwind-html`, etc.). Subclassable per pack: extend `IchavaUpdateIconsCommand` and override the protected getters to bake in defaults so end users only run `php artisan ichava:package-update`.
+
+```bash
+php artisan ichava:update                                # interactive prompts for repo + paths
+php artisan ichava:update tabler/tabler-icons /abs/dest icons/svg  # all positional args
+php artisan ichava:update --set=outline                  # update a single set inside a multi-set repo
+php artisan ichava:update --prefix=cache_v2 --force      # cache key prefix + skip overwrite confirmation
+```
+
+| Arg / Flag | Effect |
+|---|---|
+| `repository` (positional) | GitHub `vendor/repo` slug to pull. Prompted if omitted. |
+| `destination` (positional) | Absolute path where SVGs land. Prompted if omitted. |
+| `archive-path` (positional) | Sub-path inside the archive to copy from (e.g. `icons/svg`). Prompted if omitted. |
+| `--prefix=` | Optional cache-folder prefix to namespace the download. |
+| `--set=` | Restrict the operation to a single set inside a multi-set repo. |
+| `--force` | Overwrite the destination without confirmation. |
 
 ### `ichava:inject-npm-scripts`
 

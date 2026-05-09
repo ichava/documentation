@@ -4,7 +4,7 @@
 
 *Explanation.*
 
-Ichava is built on the [Laranail Package Tools](https://github.com/laranail/packager) library (a Spatie package-tools fork). The ecosystem is composed of focused, single-responsibility Composer packages that depend on each other through a clean directed graph. Install only what you need.
+Ichava is built on the [Laranail Package Tools](https://github.com/laranail/package-tools) library (a Spatie package-tools fork). The ecosystem is composed of focused, single-responsibility Composer packages that depend on each other through a clean directed graph. Install only what you need.
 
 ## Package topology
 
@@ -43,7 +43,7 @@ The `ichava/browser` package owns the *entire HTTP layer* (REST API, SPA, middle
 
 | Rule | Rationale |
 |---|---|
-| `ichava/core` depends only on `laranail/packager` and Laravel framework | Headless server installs (no JS toolchain) work cleanly. |
+| `ichava/core` depends only on `laranail/package-tools` and Laravel framework | Headless server installs (no JS toolchain) work cleanly. |
 | `ichava/browser` depends on `ichava/core` | Browser is a UI consumer, not an icon source. |
 | Icon packs depend on `ichava/core` (never on `ichava/browser`) | Decouples icon distribution from UI. Install core + a pack and have CLI / Blade access with no Vue, Vite, or Node.js. |
 | `ichava/browser` does not depend on icon packs | The browser discovers them at runtime via `IconRegistry`. Install any combination. |
@@ -54,7 +54,7 @@ The `ichava/browser` package owns the *entire HTTP layer* (REST API, SPA, middle
 ```mermaid
 classDiagram
     class PackageServiceProvider {
-        <<laranail/packager>>
+        <<laranail/package-tools>>
     }
     class IchavaServiceProvider {
         <<ichava/core>>
@@ -91,7 +91,7 @@ classDiagram
 
 > **Rule for icon packs:** extend `Simtabi\Laranail\Ichava\Support\ServiceProvider` (lives in `ichava/core`). Never extend `IchavaServiceProvider`, `IchavaBrowserServiceProvider`, or `PackageServiceProvider` directly.
 
-> **Rule for the browser package:** extends laranail packager's `PackageServiceProvider` directly. Boots its routes, views, and Vite assets in `bootingPackage()` so core's services are guaranteed to be bound first.
+> **Rule for the browser package:** extends `laranail/package-tools`' `PackageServiceProvider` directly. Boots its routes, views, and Vite assets in `bootingPackage()` so core's services are guaranteed to be bound first.
 
 ## What `IchavaServiceProvider` registers
 
@@ -216,10 +216,10 @@ Public asset publishing for the SPA happens in `IchavaBrowserServiceProvider::bo
 
 ## RuntimeConfigurator (PHP runtime tuning)
 
-Heavy operations (seeding 100k+ icons, batch processing) need higher memory limits and longer timeouts. Core uses the `RuntimeConfigurator` utility from `laranail/packager`:
+Heavy operations (seeding 100k+ icons, batch processing) need higher memory limits and longer timeouts. Core uses the `RuntimeConfigurator` utility from `laranail/package-tools`:
 
 ```php
-use Simtabi\Laranail\Packager\Package\Support\RuntimeConfigurator;
+use Simtabi\Laranail\PackageTools\Support\RuntimeConfigurator;
 
 RuntimeConfigurator::make()
     ->memory('2G')

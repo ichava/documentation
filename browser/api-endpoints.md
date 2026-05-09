@@ -70,7 +70,7 @@ curl "http://example.com/ichava/api/icons/statistics"
 
 ### Postman collection
 
-A ready-to-import Postman collection ships with the core package at [`.dev/postman_collection.json`](.dev/postman_collection.json). Import it into Postman, then set the collection variables:
+A ready-to-import Postman collection ships with the browser package at [`.dev/postman_collection.json`](https://github.com/ichava/browser/blob/main/.dev/postman_collection.json). Import it into Postman, then set the collection variables:
 
 | Variable | Default | Description |
 |---|---|---|
