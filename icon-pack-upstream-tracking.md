@@ -78,6 +78,14 @@ ichava:icons:check-updates` wraps the service for humans + CI.
 | `packagist` | `https://repo.packagist.org/p2/<vendor>/<package>.json` | newest non-`dev-*` `version` | Composer-native icon vendors. |
 | `url` | (user-supplied) | dot-path from `source.version_field` | Escape hatch for anything else. |
 
+### Opting out
+
+A pack with no `upstream` block in its `config.json` is reported as
+`no-upstream` by the tracker and is otherwise ignored. This is the right
+choice for vendored snapshots of commercial / closed-source assets where
+no public registry exists to poll. `ichava/metronic-icons` (commercial
+KeenThemes assets, no public release feed) is the reference example.
+
 ## Notification hook
 
 When the checker finds a stale pack, it dispatches:
