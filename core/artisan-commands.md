@@ -95,25 +95,24 @@ php artisan ichava:cleanup-logs --days=14        # override the retention window
 php artisan ichava:cleanup-logs --dry-run        # report what would be deleted, change nothing
 ```
 
-### `ichava:update`
+### `ichava:icons:check-updates`
 
-Pulls a fresh copy of an upstream icon set from a GitHub archive and writes it to a destination directory inside your project. Used by icon packs that mirror an external repo (`tabler/tabler-icons`, `Keenthemes/metronic-tailwind-html`, etc.). Subclassable per pack: extend `IchavaUpdateIconsCommand` and override the protected getters to bake in defaults so end users only run `php artisan ichava:package-update`.
+Reports whether any registered icon pack is behind its upstream source. Reads each pack's `upstream` block from its `config.json`, hits the declared `version_check_url` (npm registry, GitHub releases / tags, Packagist, or a custom URL), and prints a status table. Dispatches `IconPackUpdateAvailable` events for stale packs so host apps can wire Slack / email / dashboard notifications.
 
 ```bash
-php artisan ichava:update                                # interactive prompts for repo + paths
-php artisan ichava:update tabler/tabler-icons /abs/dest icons/svg  # all positional args
-php artisan ichava:update --set=outline                  # update a single set inside a multi-set repo
-php artisan ichava:update --prefix=cache_v2 --force      # cache key prefix + skip overwrite confirmation
+php artisan ichava:icons:check-updates                              # table for every pack
+php artisan ichava:icons:check-updates --package=ichava/emoji-sets  # restrict to one pack
+php artisan ichava:icons:check-updates --format=json                # machine-readable
+php artisan ichava:icons:check-updates --fail-on-stale              # exit 1 if any pack is behind
 ```
 
 | Arg / Flag | Effect |
 |---|---|
-| `repository` (positional) | GitHub `vendor/repo` slug to pull. Prompted if omitted. |
-| `destination` (positional) | Absolute path where SVGs land. Prompted if omitted. |
-| `archive-path` (positional) | Sub-path inside the archive to copy from (e.g. `icons/svg`). Prompted if omitted. |
-| `--prefix=` | Optional cache-folder prefix to namespace the download. |
-| `--set=` | Restrict the operation to a single set inside a multi-set repo. |
-| `--force` | Overwrite the destination without confirmation. |
+| `--package=` | Restrict to one `vendor/name` pack (else: every pack in `IconRegistry`). |
+| `--format=table\|json` | Output shape. `json` is what CI scripts consume. |
+| `--fail-on-stale` | Exit non-zero when any pack is behind or unreachable. |
+
+Refreshing the actual SVG assets is **not** an end-user step -- `vendor/` is regenerated on every `composer install`. The maintainer-side refresh runs in CI via [`ichava/maintainer-toolkit`](https://github.com/ichava/maintainer-toolkit); see [`../icon-pack-maintainer-sync.md`](../icon-pack-maintainer-sync.md).
 
 ### `ichava:inject-npm-scripts`
 

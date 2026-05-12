@@ -164,10 +164,17 @@ final URL.
 
 ## Updating local assets
 
-The existing `php artisan ichava:update` command will be extended in a
-follow-up phase to read the `upstream.update_command` block and run the
-pack-provided refresh script. For now, see each pack's
-`scripts/README.md` for the build steps.
+End users **don't** refresh assets locally -- Composer regenerates
+`vendor/` on every install, so any local SVG change is discarded.
+Asset refreshes run maintainer-side via
+[`ichava/maintainer-toolkit`](https://github.com/ichava/maintainer-toolkit),
+which polls each pack's `upstream` block, runs the matching recipe,
+commits the refreshed SVGs back to the pack repo, and opens a PR. A
+human reviews + tags a release; Packagist + `composer update` fans
+the change out to every consumer.
+
+See [`icon-pack-maintainer-sync.md`](icon-pack-maintainer-sync.md) for
+the full architecture.
 
 ## See also
 

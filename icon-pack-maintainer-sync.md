@@ -22,9 +22,9 @@ maintainer can persist asset refreshes**, by:
 3. Letting Packagist + `composer update` fan the change out.
 
 So every refresh is a maintainer-side commit, not a runtime command.
-The `ichava:update-icons` Artisan command (legacy) is being deprecated;
-it ran in the host app where it couldn't persist. The new model runs
-in the pack repo's CI.
+The legacy `ichava:update*` Artisan commands shipped in core 1.0.x
+have been removed in 1.1.0; they ran in the host app where they
+couldn't persist. The new model runs in the pack repo's CI.
 
 ## Pipeline (cron → PR → tag → fan-out)
 
