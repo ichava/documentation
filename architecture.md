@@ -18,6 +18,7 @@ flowchart TB
     third["<b>3rd-party packs</b><br/>via make:icon-package"]
     docs["<i>ichava/documentation</i><br/>markdown only"]
     meta["<i>ichava/ichava (planned)</i><br/>metapackage + landing"]
+    toolkit["<b>ichava/maintainer-toolkit</b><br/>Docker-first Python tool<br/>refreshes vendored SVGs via PR<br/>(not installed by users)"]
 
     browser -- depends on --> core
     tabler -- depends on --> core
@@ -26,15 +27,20 @@ flowchart TB
     third -- depends on --> core
     meta -.-> core
     meta -.-> browser
+    toolkit -. CI refreshes .-> tabler
+    toolkit -. CI refreshes .-> bundled
+    toolkit -. CI refreshes .-> metronic
 
     classDef engine fill:#1f6feb,stroke:#1f6feb,color:#fff
     classDef http fill:#8957e5,stroke:#8957e5,color:#fff
     classDef pack fill:#0e8a16,stroke:#0e8a16,color:#fff
     classDef other fill:#6e7681,stroke:#6e7681,color:#fff
+    classDef tooling fill:#bf8700,stroke:#bf8700,color:#fff
     class core engine
     class browser http
     class tabler,bundled,metronic,third pack
     class docs,meta other
+    class toolkit tooling
 ```
 
 The `ichava/browser` package owns the *entire HTTP layer* (REST API, SPA, middleware). Core ships zero HTTP surface, so `composer require ichava/core` alone gives a fully functional headless icon engine. Icon packs depend only on core, so a CLI-only deployment can install `core` + a pack with no Node, Vite, or browser dependencies.
