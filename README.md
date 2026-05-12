@@ -35,6 +35,8 @@ Documentation is grouped by repo. Cross-cutting topics (architecture, security, 
 - [Security model](security-model.md), threat model and mitigations
 - [Security threat model](security-threat-model.md), STRIDE walkthrough and disclosure SLAs
 - [Troubleshooting](troubleshooting.md), common issues
+- [Icon-pack upstream tracking](icon-pack-upstream-tracking.md), host-app side -- how to subscribe to update events
+- [Icon-pack maintainer sync](icon-pack-maintainer-sync.md), maintainer side -- how we refresh vendored assets and ship a new release
 - [Contributing](CONTRIBUTING.md), style guide and PR conventions
 - [Security policy](SECURITY.md), how to report a vulnerability
 
