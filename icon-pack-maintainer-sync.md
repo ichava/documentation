@@ -32,7 +32,7 @@ couldn't persist. The new model runs in the pack repo's CI.
 flowchart LR
     cron["Weekly cron<br/>(GitHub Actions)"]
         --> orch["sync_upstream.py<br/>(orchestrator)"]
-    orch -->|reads| cfg["pack/config.json::upstream"]
+    orch -->|reads| cfg["pack/config.json:upstream"]
     orch -->|polls| upstream["npm / GitHub /<br/>Packagist / git tags"]
     upstream --> idem{Newer<br/>version?}
     idem -- no --> done["Exit 0,<br/>nothing to do"]
@@ -113,7 +113,7 @@ add user-facing alerts beyond:
   same).
 
 Composer + Packagist already handles the "your dependency has a new
-version" case well — duplicating that with maintainer-side webhooks
+version" case well: duplicating that with maintainer-side webhooks
 would be scope creep without user demand.
 
 ## End-user vs maintainer cheat sheet

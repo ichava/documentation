@@ -17,7 +17,7 @@ content and still misses the real attack, so each construct is judged on what it
 | Construct | Rule |
 |---|---|
 | `href`, `xlink:href` | same-document fragments only, `^#[A-Za-z_][\w.:-]*$`. An external, protocol-relative, relative, `data:`, `blob:` or `javascript:` target is removed. This is what lets `<use>` sprites work at all. |
-| `style` value | kept — it is the only paint source for thousands of icons — but any `url()` must target a fragment, and `behavior:` / `-moz-binding` are refused outright. |
+| `style` value | kept: it is the only paint source for thousands of icons, but any `url()` must target a fragment, and `behavior:` / `-moz-binding` are refused outright. |
 | Dangerous protocols | matched **anywhere** in a value, not just at its start, and matched again with whitespace and control characters collapsed, so `url(java\nscript:…)` is not a bypass. |
 | `role`, `aria-*` | allowed by shape (`/^aria-[a-z]+$/`). ARIA is inert, and an icon shipping `<title>`/`<desc>` needs `aria-labelledby` to point at them. |
 | `script`, `foreignObject`, `iframe`, `object`, `embed`, SMIL | always removed, no value exception. |
@@ -30,7 +30,7 @@ its real name. Both matter: the allow-lists are authored in SVG's own casing, so
 **Two passes run before sanitisation**, inside the same cache, in `Icon::svg_content`:
 
 - **Per-file id namespacing.** SVG ids are page-scoped in practice. Two icons that both define
-  `id="Layer_1"` make the second one's `url(#Layer_1)` resolve to the first one's definition —
+  `id="Layer_1"` make the second one's `url(#Layer_1)` resolve to the first one's definition,
   silently wrong, and the browser renders 60+ icons at once. Every id is prefixed with
   `'i' + sha1(path)[0:6] + '-'`, and every reference moves with it: `href`, `url()` in attributes
   and in `<style>`, `aria-labelledby`, `aria-describedby`.
@@ -41,7 +41,7 @@ its real name. Both matter: the allow-lists are authored in SVG's own casing, so
 **Malformed input is recovered, not rejected.** An icon author is not a compiler, and a rejection
 reaches the consumer as a blank icon. A strict parse is tried first, then a recovery parse, plus
 two text repairs: HTML named entities become the numeric form XML defines, and an ampersand that
-opens no valid reference is escaped. **Recovery is about syntax only** — the security flags are
+opens no valid reference is escaped. **Recovery is about syntax only**, the security flags are
 identical across both passes and the allow-list runs over whatever comes back, so a malformed
 document is not a route past it.
 
@@ -85,7 +85,7 @@ icons.
 
 **CSP nonce / hash modes.** `ichava.browser.security.csp.mode` accepts `strict` (default, JSON-API safe), `nonce` (request-scoped 192-bit nonce, paired with the `@ichava_csp_nonce` Blade directive), or `hash` (pre-computed `sha256` digest list). The browser SPA should run under `nonce`; stateless deployments stay on `strict`.
 
-**Subresource Integrity.** Use `<x-ichava::sri-asset src="…" />` to emit `<script integrity="sha384-…" crossorigin="anonymous">`. Hashes can come from a manifest at `ichava.browser.security.sri.manifest` or be computed at render time from the public-path file.
+**Subresource Integrity.** Use `<x-ichava:sri-asset src="…" />` to emit `<script integrity="sha384-…" crossorigin="anonymous">`. Hashes can come from a manifest at `ichava.browser.security.sri.manifest` or be computed at render time from the public-path file.
 
 ## Hybrid API stack
 

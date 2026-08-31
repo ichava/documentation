@@ -19,12 +19,12 @@
 composer require ichava/browser:^0.1
 ```
 
-The `IchavaBrowserServiceProvider` registers automatically. The browser depends on `ichava/core`, so Composer pulls it transitively if you don't already have it — but only if core's repository is declared in **your** `composer.json`: Composer reads `repositories` from the root package only.
+The `IchavaBrowserServiceProvider` registers automatically. The browser depends on `ichava/core`, so Composer pulls it transitively if you don't already have it, but only if core's repository is declared in **your** `composer.json`: Composer reads `repositories` from the root package only.
 
 ## 2. Publish the browser config
 
 ```bash
-php artisan vendor:publish --tag=ichava::browser-config
+php artisan vendor:publish --tag=ichava:browser-config
 ```
 
 Creates `config/ichava/browser.php`. See [configuration](configuration.md) for the keys.
@@ -62,7 +62,7 @@ You only need this if you customise the SPA. End users running pre-built assets 
 - The Vue + Vite icon-browser SPA at `/{prefix}/icons`
 - The REST API at `/{prefix}/api/...` (icons, packages, terms, preferences, cache)
 - All Ichava middleware (`ichava.api`, `ichava.web`, hybrid Sanctum/session detection)
-- The `<x-ichava::ichava-test-icons>` and `<x-ichava::ichava-ui-icons>` demo Blade components
+- The `<x-ichava:ichava-test-icons>` and `<x-ichava:ichava-ui-icons>` demo Blade components
 - The `ui-icons` icon set used by the SPA
 - The `ichava:inject-npm-scripts` Artisan command
 

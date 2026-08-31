@@ -10,7 +10,7 @@ This page covers what's the same for every Ichava icon pack: install, render, fl
 
 Pick one (or several) and require it alongside `ichava/core`.
 
-Nothing is on Packagist yet, so declare the VCS repositories first — see
+Nothing is on Packagist yet, so declare the VCS repositories first: see
 [core installation](../core/installation.md) step 1.
 
 ```bash
@@ -24,15 +24,15 @@ The pack's service provider registers automatically via Laravel package discover
 The generic component works with any installed pack:
 
 ```blade
-<x-ichava::icon name="ichava/tabler-icons::home" class="w-6 h-6" />
+<x-ichava:icon name="ichava/tabler-icons:home" class="w-6 h-6" />
 ```
 
-The `name` follows the [icon path format](../core/icon-path-format.md): `vendor/package::category/icon`.
+The `name` follows the [icon path format](../core/icon-path-format.md): `vendor/package:category/icon`.
 
 ## 3. Render with the global helper
 
 ```blade
-{{ ichava('ichava/tabler-icons::home')->color('#4338ca')->class('w-6 h-6') }}
+{{ ichava('ichava/tabler-icons:home')->color('#4338ca')->class('w-6 h-6') }}
 ```
 
 See [global helper](../core/global-helper.md) for the full fluent API.
