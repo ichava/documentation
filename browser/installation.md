@@ -8,19 +8,26 @@
 
 ## 1. Require the package
 
-```bash
-composer require ichava/browser
+`ichava/browser` is not on Packagist either, so add its repository alongside the ones
+[core's installation](../core/installation.md) already asked for:
+
+```json
+{ "type": "vcs", "url": "https://github.com/ichava/browser" }
 ```
 
-The `IchavaBrowserServiceProvider` registers automatically. The browser depends on `ichava/core`, so Composer pulls it transitively if you don't already have it.
+```bash
+composer require ichava/browser:^0.1
+```
+
+The `IchavaBrowserServiceProvider` registers automatically. The browser depends on `ichava/core`, so Composer pulls it transitively if you don't already have it — but only if core's repository is declared in **your** `composer.json`: Composer reads `repositories` from the root package only.
 
 ## 2. Publish the browser config
 
 ```bash
-php artisan vendor:publish --tag=ichava-browser-config
+php artisan vendor:publish --tag=ichava::browser-config
 ```
 
-Creates `config/ichava-browser.php`. See [configuration](configuration.md) for the keys.
+Creates `config/ichava/browser.php`. See [configuration](configuration.md) for the keys.
 
 ## 3. Publish the SPA assets
 

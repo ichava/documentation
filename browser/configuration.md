@@ -4,13 +4,13 @@
 
 *Reference.*
 
-Publish `config/ichava-browser.php` once after install:
+Publish `config/ichava/browser.php` once after install:
 
 ```bash
-php artisan vendor:publish --tag=ichava-browser-config
+php artisan vendor:publish --tag=ichava::browser-config
 ```
 
-Browser-specific HTTP keys live here. Engine config (database, queue, logging) is in [`config/ichava.php`](../core/configuration.md).
+Browser-specific HTTP keys live here. Engine config (database, queue, logging) is in [`config/ichava/core.php`](../core/configuration.md).
 
 ## Top-level keys
 
@@ -59,7 +59,7 @@ return [
 
 ## Notes
 
-- The route prefix (`/{prefix}/icons`, `/{prefix}/api/...`) is set by `ICHAVA_BROWSER_PREFIX` and lives in **core's** config (`config('ichava.prefix')`). Both packages read it.
+- The route prefix (`/{prefix}/icons`, `/{prefix}/api/...`) is set by `ICHAVA_BROWSER_PREFIX` and lives in **core's** config (`config('ichava.core.prefix')`). Both packages read it.
 - `rate_limiting.enabled = false` (default) makes per-bucket limits no-ops. The `api_floor` global throttle still applies regardless.
 - Multi-domain mode: set `ICHAVA_DOMAINS=app.test,admin.test` to restrict routes. Empty (default) means routes are reachable on every domain.
 

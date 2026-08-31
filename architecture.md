@@ -12,24 +12,33 @@ Ichava is built on the [Laranail Package Tools](https://github.com/laranail/pack
 flowchart TB
     core["<b>ichava/core</b><br/>services, registry, seeder, Blade base,<br/>scaffolder, migrations, log channels<br/>(no HTTP surface, headless-friendly)"]
     browser["<b>ichava/browser</b><br/>REST API + Vue/Vite SPA<br/>middleware + browser views"]
-    tabler["<b>ichava/tabler-icons</b><br/>5,900+ icons"]
-    bundled["<b>ichava/bundled-icons</b><br/>121,000+ icons / 70+ sets"]
-    metronic["<b>ichava/metronic-icons</b><br/>500+ icons"]
+    tabler["<b>ichava/tabler-icons</b><br/>6,184 icons"]
+    bundled["<b>ichava/bundled-icons</b><br/>121,314 icons / 72 sets<br/>PRIVATE"]
+    metronic["<b>ichava/metronic-icons</b><br/>501 icons<br/>PRIVATE"]
+    flag["<b>ichava/flag-icons</b><br/>542 flags, 1x1 + 4x3"]
+    emoji["<b>ichava/emoji-sets</b><br/>wiring only, no assets yet"]
     third["<b>3rd-party packs</b><br/>via make:icon-package"]
     docs["<i>ichava/documentation</i><br/>markdown only"]
     meta["<i>ichava/ichava (planned)</i><br/>metapackage + landing"]
     toolkit["<b>ichava/maintainer-toolkit</b><br/>Docker-first Python tool<br/>refreshes vendored SVGs via PR<br/>(not installed by users)"]
+    motion["<i>@ichava/motion</i><br/>SVG animation engine<br/>~205 presets, no runtime deps<br/>(outside the Composer graph)"]
+    react["<i>@ichava/react-browser</i><br/>React 19 rebuild of the front end<br/>PRIVATE, not on npm"]
 
     browser -- depends on --> core
     tabler -- depends on --> core
     bundled -- depends on --> core
     metronic -- depends on --> core
+    flag -- depends on --> core
+    emoji -- depends on --> core
     third -- depends on --> core
     meta -.-> core
     meta -.-> browser
     toolkit -. CI refreshes .-> tabler
     toolkit -. CI refreshes .-> bundled
     toolkit -. CI refreshes .-> metronic
+    toolkit -. CI refreshes .-> flag
+    toolkit -. CI refreshes .-> emoji
+    react -. replaces the SPA in .-> browser
 
     classDef engine fill:#1f6feb,stroke:#1f6feb,color:#fff
     classDef http fill:#8957e5,stroke:#8957e5,color:#fff
@@ -38,8 +47,8 @@ flowchart TB
     classDef tooling fill:#bf8700,stroke:#bf8700,color:#fff
     class core engine
     class browser http
-    class tabler,bundled,metronic,third pack
-    class docs,meta other
+    class tabler,bundled,metronic,flag,emoji,third pack
+    class docs,meta,motion,react other
     class toolkit tooling
 ```
 
@@ -78,22 +87,35 @@ classDiagram
         routes, views, middleware,
         SPA assets, browser components
     }
-    class TablerIconsServiceProvider {
-        <<ichava/tabler-icons>>
+    class TablerIcons_IconsServiceProvider["IconsServiceProvider"] {
+        <<Ichava\TablerIcons\Providers>>
     }
-    class BundledIconsServiceProvider {
-        <<ichava/bundled-icons>>
+    class BundledIcons_IconsServiceProvider["IconsServiceProvider"] {
+        <<Ichava\IconsBundle\Providers>>
     }
-    class MetronicIconsServiceProvider {
-        <<ichava/metronic-icons>>
+    class MetronicIcons_IconsServiceProvider["IconsServiceProvider"] {
+        <<Ichava\MetronicIcons\Providers>>
+    }
+    class FlagIcons_IconsServiceProvider["IconsServiceProvider"] {
+        <<Ichava\FlagIcons\Providers>>
+    }
+    class EmojiSets_IconsServiceProvider["IconsServiceProvider"] {
+        <<Ichava\EmojiSets\Providers>>
     }
     PackageServiceProvider <|-- IchavaServiceProvider
     PackageServiceProvider <|-- SupportServiceProvider
     PackageServiceProvider <|-- IchavaBrowserServiceProvider
-    SupportServiceProvider <|-- TablerIconsServiceProvider
-    SupportServiceProvider <|-- BundledIconsServiceProvider
-    SupportServiceProvider <|-- MetronicIconsServiceProvider
+    SupportServiceProvider <|-- TablerIcons_IconsServiceProvider
+    SupportServiceProvider <|-- BundledIcons_IconsServiceProvider
+    SupportServiceProvider <|-- MetronicIcons_IconsServiceProvider
+    SupportServiceProvider <|-- FlagIcons_IconsServiceProvider
+    SupportServiceProvider <|-- EmojiSets_IconsServiceProvider
 ```
+
+**Every pack's provider is called `IconsServiceProvider`.** The short name is a constant across the
+ecosystem and only the namespace varies, so a contributor can `grep "class IconsServiceProvider"`
+and find all five. A `<Pack>IconsServiceProvider` name is the thing this convention exists to
+prevent; the same holds for `IconsConstants` and `IconComponent`.
 
 > **Rule for icon packs:** extend `Simtabi\Laranail\Ichava\Support\ServiceProvider` (lives in `ichava/core`). Never extend `IchavaServiceProvider`, `IchavaBrowserServiceProvider`, or `PackageServiceProvider` directly.
 
@@ -177,7 +199,7 @@ The middleware stack uses **hybrid detection** via `HostCapabilities`. Adds the 
 
 Browser provider also publishes:
 
-- Browser config: `config/ichava-browser.php` (`--tag=ichava-browser-config`)
+- Browser config: `config/ichava/browser.php` (`--tag=ichava::browser-config`)
 - SPA dist assets: `public/vendor/ichava/` (`--tag=ichava-assets`)
 - Browser-only Blade components: `<x-ichava::layouts.app>`, `<x-ichava::layouts.browser>`, `<x-ichava::ichava-test-icons>`, `<x-ichava::ichava-ui-icons>`
 - Anonymous Blade component path under the `ichava::` namespace
@@ -212,7 +234,7 @@ Common bug: logging in `registeringPackage()` throws `Log [ichava] not defined` 
 
 `IchavaServiceProvider::configurePackage()` runs before any bindings are registered (the packager's earliest lifecycle hook). It declares:
 
-- The published config file (`config/ichava.php`)
+- The published config file (`config/ichava/core.php`)
 - All Artisan commands
 - The `@ichava_defs` Blade directive
 
@@ -240,7 +262,7 @@ See `Simtabi\Laranail\Packager\Package\Support\RuntimeConfigurator` for the full
 
 ## IchavaRegistrar (bulk registration helper)
 
-Use `IchavaRegistrar` when a service provider manages multiple icon-set sub-directories under a shared base path (for example, a bundle with 70+ sets). It loops over the directories, skips missing ones, and optionally tracks statistics.
+Use `IchavaRegistrar` when a service provider manages multiple icon-set sub-directories under a shared base path (for example, a bundle with 72 sets). It loops over the directories, skips missing ones, and optionally tracks statistics.
 
 | Scenario | Recommended approach |
 |---|---|

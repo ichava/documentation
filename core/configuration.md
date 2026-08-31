@@ -4,13 +4,13 @@
 
 *Reference.*
 
-Publish `config/ichava.php` once after install:
+Publish `config/ichava/core.php` once after install:
 
 ```bash
-php artisan vendor:publish --tag=ichava-config
+php artisan vendor:publish --tag=ichava::core-config
 ```
 
-The published file is the engine's single source of truth. Browser-specific keys live in [`config/ichava-browser.php`](../browser/configuration.md), published separately.
+The published file is the engine's single source of truth. Browser-specific keys live in [`config/ichava/browser.php`](../browser/configuration.md), published separately.
 
 ## Top-level keys
 

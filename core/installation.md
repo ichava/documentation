@@ -4,23 +4,45 @@
 
 *How-to guide.*
 
-## 1. Require the package
+## 1. Point Composer at the repositories
+
+**Nothing in the Ichava ecosystem is published on Packagist yet.** `composer require ichava/core`
+on its own fails with "could not be found". Add the VCS repositories to your application's
+`composer.json` first, including the three `laranail/*` packages core depends on, which are also
+unpublished:
+
+```json
+{
+    "repositories": [
+        { "type": "vcs", "url": "https://github.com/ichava/core" },
+        { "type": "vcs", "url": "https://github.com/laranail/package-tools.git" },
+        { "type": "vcs", "url": "https://github.com/laranail/console.git" },
+        { "type": "vcs", "url": "https://github.com/laranail/enumerator.git" }
+    ]
+}
+```
+
+Composer reads `repositories` only from the root package, so a package's own entries do not carry
+across to yours: every unpublished package in the tree has to be named here, core's dependencies
+included.
+
+## 2. Require the package
 
 ```bash
-composer require ichava/core
+composer require ichava/core:^0.1
 ```
 
 The `IchavaServiceProvider` registers automatically via Laravel package discovery.
 
-## 2. Publish the config
+## 3. Publish the config
 
 ```bash
-php artisan vendor:publish --tag=ichava-config
+php artisan vendor:publish --tag=ichava::core-config
 ```
 
-Creates `config/ichava.php`. See [configuration](configuration.md) for the keys.
+Creates `config/ichava/core.php`. See [configuration](configuration.md) for the keys.
 
-## 3. Run the migrations
+## 4. Run the migrations
 
 ```bash
 php artisan migrate
@@ -28,21 +50,26 @@ php artisan migrate
 
 Creates the `icons` and `icon_terms` tables (or your configured table prefix).
 
-## 4. Install at least one icon pack
+## 5. Install at least one icon pack
 
-Core ships with no icons. Pick a pack:
+Core ships with no icons. The publicly available packs are:
+
+| Pack | Icons | Add this repository |
+|---|---|---|
+| `ichava/tabler-icons` | 6,184 | `https://github.com/ichava/tabler-icons` |
+| `ichava/flag-icons` | 542 | `https://github.com/ichava/flag-icons` |
+| `ichava/emoji-sets` | engine wiring only, assets pending | `https://github.com/ichava/emoji-sets` |
 
 ```bash
-composer require ichava/tabler-icons
-# or
-composer require ichava/bundled-icons
-# or
-composer require ichava/metronic-icons
+composer require ichava/tabler-icons:^0.1
 ```
+
+`ichava/bundled-icons` (121,314 icons) and `ichava/metronic-icons` (501) are **private**: they are
+part of the ecosystem but not distributable, so they are available only to accounts with access.
 
 Or build your own with `php artisan make:icon-package`. See [creating icon packages](creating-icon-packages.md).
 
-## 5. Seed the icon database
+## 6. Seed the icon database
 
 ```bash
 php artisan ichava:database seed
@@ -50,7 +77,7 @@ php artisan ichava:database seed
 
 Optional but recommended. The seeder builds the index used by the icon renderer and (if installed) the visual browser. See [database seeding](database-seeding.md).
 
-## 6. Use icons in Blade
+## 7. Use icons in Blade
 
 ```blade
 <x-ichava::icon name="ichava/tabler-icons::home" class="w-6 h-6" />

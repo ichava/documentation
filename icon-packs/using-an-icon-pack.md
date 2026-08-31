@@ -10,8 +10,11 @@ This page covers what's the same for every Ichava icon pack: install, render, fl
 
 Pick one (or several) and require it alongside `ichava/core`.
 
+Nothing is on Packagist yet, so declare the VCS repositories first — see
+[core installation](../core/installation.md) step 1.
+
 ```bash
-composer require ichava/core ichava/tabler-icons
+composer require ichava/core:^0.1 ichava/tabler-icons:^0.1
 ```
 
 The pack's service provider registers automatically via Laravel package discovery. No manual `config/app.php` edit.

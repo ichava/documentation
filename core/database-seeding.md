@@ -154,7 +154,7 @@ https://example.com/horizon
 ### Configuration
 
 ```php
-// config/ichava.php
+// config/ichava/core.php
 'database' => [
     'batch_size' => env('ICHAVA_BATCH_SIZE', 1000),  // Icons per job
     'use_queue' => true,                              // Enable queue mode
@@ -175,7 +175,7 @@ https://example.com/horizon
 
 | Package | Icons | Jobs | Workers | Time |
 |---------|-------|------|---------|------|
-| vendor/your-icons | 121,000+ | 122 | 5 | ~3 min |
+| vendor/your-icons | 121,314 | 122 | 5 | ~3 min |
 | vendor/your-icons | 5,000+ | 5 | 3 | ~30 sec |
 | vendor/your-icons | 1,500+ | 2 | 1 | ~10 sec |
 
@@ -202,7 +202,7 @@ php artisan migrate:fresh --seed           # With migrations
 To enable auto-seeding (not recommended for production):
 
 ```php
-// config/ichava.php
+// config/ichava/core.php
 'database' => [
     'auto_seed' => true,  // Enable auto-seeding
 ],

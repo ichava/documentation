@@ -39,14 +39,14 @@ The HTTP edge is the only place untrusted bytes cross. Everything past `IchavaAp
 |---|---|---|---|
 | **Spoofing** | Stolen session, replayed bearer token | `HostCapabilities` engages full `web` stack with `VerifyCsrfToken` when Sanctum is present; otherwise the API expects bearer / signed-URL auth from the host | `ichava/browser` |
 | **Spoofing** | Forged origin in CORS preflight | CORS defaults to `config('app.url')`, never `*`. Override is opt-in via `ICHAVA_API_CORS_ORIGINS` | `ichava/browser` |
-| **Tampering** | Malicious SVG smuggled through a registered icon directory | `SanitizesSvg` trait: DOM allow-list parse with `LIBXML_NONET`, `resolveExternals=false`, `substituteEntities=false`. Strips `script`, `foreignObject`, `on*`, `javascript:`, `data:` URIs, `xlink:href`, external `href` | `ichava/core` |
+| **Tampering** | Malicious SVG smuggled through a registered icon directory | `SanitizesSvg` trait: DOM allow-list parse with `LIBXML_NONET`, `resolveExternals=false`, `substituteEntities=false`. Blocks **by value**: `script`, `foreignObject`, `on*` handlers, dangerous protocols matched anywhere in a value, any `href` that is not a same-document fragment, any `url()` that leaves the document. See [security-model.md](security-model.md#built-in-protections) | `ichava/core` |
 | **Tampering** | Path traversal via icon identifier | `SvgDriver::loadFromLocal` does `realpath()` containment plus symlink rejection; the `ichava-browser` middleware also pattern-rejects `..`, `..%2e`, `....` in URLs and inputs | `ichava/core` + `ichava/browser` |
 | **Tampering** | Drive-by replacement of published SPA assets | `SriAsset` Blade component emits Subresource Integrity hashes (default `sha384`); browsers refuse to execute mismatched bytes | `ichava/browser` |
 | **Repudiation** | Operator denies running a destructive command | `AuditLogger` channel `ichava-audit` (90-day retention, mode 0640) records every command and middleware reject; SIEM receives a parallel `SecurityAuditEvent` | `ichava/core` |
 | **Information disclosure** | XXE in SVG | `LIBXML_NONET` plus `resolveExternals=false` plus `substituteEntities=false`; explicit reject of `<!ENTITY` constructs | `ichava/core` |
 | **Information disclosure** | Verbose stack traces leaked from API | All API errors flow through `IchavaApiSecurity::errorResponse()` which returns a fixed JSON shape with no internal detail | `ichava/browser` |
 | **Information disclosure** | Sensitive query params logged in plain text | Audit pipeline whitelists context fields; raw query strings are never serialised | `ichava/core` |
-| **Denial of service** | Large request body | `ichava-browser.max_request_size` (default 1 MiB) hard cap | `ichava/browser` |
+| **Denial of service** | Large request body | `ichava.browser.max_request_size` (default 1 MiB) hard cap | `ichava/browser` |
 | **Denial of service** | Unbounded request rate | Per-route `throttle:N,1` plus the `ichava.api` group floor (`api_floor`, default 300 rpm) | `ichava/browser` |
 | **Denial of service** | Concurrent re-seed flooding the queue | `cache()->lock('ichava:seeding:<pkg>', 600)` on every seed dispatch | `ichava/core` |
 | **Elevation of privilege** | Stored XSS via icon name | `IconComponent` escapes the rendered name; sanitiser strips event handlers; CSP `nonce`/`hash` mode (opt-in) blocks any inline script the sanitiser misses | `ichava/core` + `ichava/browser` |
@@ -75,7 +75,7 @@ flowchart TD
     class spaCfg,embedCfg ok
 ```
 
-Knobs live under `ichava-browser.security.*`:
+Knobs live under `ichava.browser.security.*`:
 
 | Key | Modes | Default |
 |---|---|---|

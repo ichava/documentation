@@ -4,7 +4,7 @@
 
 *Reference.*
 
-Every `ICHAVA_*` env var that the **engine** (`ichava/core`) reads at runtime, with default, effect, and the `config('ichava.*')` path it drives. HTTP-layer variables (`ICHAVA_API_*`, `ICHAVA_BROWSER_*`, `ICHAVA_DOMAINS`, `ICHAVA_RATE_LIMITING_*`, `ICHAVA_VITE_DEV`) live in [browser/environment.md](../browser/environment.md).
+Every `ICHAVA_*` env var that the **engine** (`ichava/core`) reads at runtime, with default, effect, and the `config('ichava.core.*')` path it drives. HTTP-layer variables (`ICHAVA_API_*`, `ICHAVA_BROWSER_*`, `ICHAVA_DOMAINS`, `ICHAVA_RATE_LIMITING_*`, `ICHAVA_VITE_DEV`) live in [browser/environment.md](../browser/environment.md).
 
 Copy what you need from [`.env.example`](https://github.com/ichava/core/blob/main/.env.example) into your application's `.env`.
 

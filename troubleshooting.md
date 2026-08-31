@@ -42,7 +42,7 @@ If you run Horizon, the dashboard at `/horizon` shows the `ichava-icons` supervi
 The seeder chunks icons into 1,000-row jobs to avoid memory pressure. If you still hit a memory limit, do one of:
 
 ```bash
-# Smaller chunks (config/ichava.php)
+# Smaller chunks (config/ichava/core.php)
 'batch_size' => 500,
 
 # Larger queue worker memory
@@ -50,7 +50,7 @@ php artisan queue:work --queue=ichava-icons --memory=1024 --timeout=600
 
 # Confirm the configured runtime memory
 php artisan tinker
->>> config('ichava.runtime.memory_limit')
+>>> config('ichava.core.runtime.memory_limit')
 ```
 
 ## "All files unchanged, skipping"
@@ -142,7 +142,7 @@ Should print the directory you expected. If it points at `storage/logs/` despite
 Confirm three things:
 
 1. At least one icon pack is installed and seeded: `php artisan ichava:info packages`
-2. The browser config picks up the right prefix: `php artisan tinker`, then `config('ichava.prefix')` should match `/{prefix}/icons` in the URL.
+2. The browser config picks up the right prefix: `php artisan tinker`, then `config('ichava.core.prefix')` should match `/{prefix}/icons` in the URL.
 3. The Vite dist assets were published: `ls public/vendor/ichava/assets/`. If empty, run `php artisan vendor:publish --tag=ichava-assets`.
 
 ## See also

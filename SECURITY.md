@@ -42,7 +42,7 @@ In scope:
 - `ichava/browser` HTTP layer (middleware, routes, controllers)
 - `ichava/tabler-icons`, `ichava/bundled-icons`, `ichava/metronic-icons`
 - The `make:icon-package` scaffolder output template
-- Configuration defaults shipped in `config/ichava.php` and `config/ichava-browser.php`
+- Configuration defaults shipped in `config/ichava/core.php` and `config/ichava/browser.php`
 
 Out of scope:
 

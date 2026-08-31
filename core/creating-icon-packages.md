@@ -226,7 +226,7 @@ class YourIconsServiceProvider extends ServiceProvider
 }
 ```
 
-**For large bundles** (70+ sets), use `registerBulkIconSets()` instead:
+**For large bundles** (72 sets), use `registerBulkIconSets()` instead:
 
 ```php
 public function bootingPackage(): void
