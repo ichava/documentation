@@ -4,9 +4,17 @@ Canonical disclosure policy for the Ichava ecosystem. Linked by every package's 
 
 ## Reporting a vulnerability
 
-**Do not** open a public GitHub issue for a security report. Email **security@simtabi.com**.
+**Do not** open a public GitHub issue for a security report.
 
-Include:
+Two channels, in order of preference:
+
+1. **GitHub private vulnerability reporting**, from the Security tab of the affected repository.
+   The report arrives attached to the repo with a draft advisory and a CVE request path already in
+   place, so nothing has to be transcribed and the fix, the advisory and the disclosure stay
+   together.
+2. **Email `security@simtabi.com`**, if you would rather not use GitHub or do not have an account.
+
+Either way, include:
 
 - Affected repo and version (commit SHA or tagged release)
 - Issue type (XSS, XXE, path traversal, injection, supply-chain, etc.)
