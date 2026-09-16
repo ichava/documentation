@@ -50,7 +50,7 @@ The prefix (`ichava` by default) is set by `ICHAVA_BROWSER_PREFIX`. The same pre
 If you want to rebuild the SPA yourself:
 
 ```bash
-php artisan ichava:inject-npm-scripts
+php artisan ichava::browser.inject-scripts
 ```
 
 Adds `ichava:dev`, `ichava:build`, and `ichava::ichava-core.watch` to your host app's `package.json`. Run `npm run ichava:dev` for the Vite dev server with HMR, or `npm run ichava:build` for a production bundle.

@@ -119,9 +119,9 @@ Refreshing the actual SVG assets is **not** an end-user step -- `vendor/` is reg
 Adds the Ichava asset-build scripts (`ichava:dev`, `ichava:build`, `ichava::ichava-core.watch`) to the host application's `package.json`. Existing keys are preserved unless `--force` is supplied.
 
 ```bash
-php artisan ichava:inject-npm-scripts                                 # patches base_path('package.json')
-php artisan ichava:inject-npm-scripts --path=/abs/path/to/package.json # custom location
-php artisan ichava:inject-npm-scripts --force                          # overwrite if scripts already exist
+php artisan ichava::browser.inject-scripts                                 # patches base_path('package.json')
+php artisan ichava::browser.inject-scripts --path=/abs/path/to/package.json # custom location
+php artisan ichava::browser.inject-scripts --force                          # overwrite if scripts already exist
 ```
 
 ### Programmatic seeding progress
