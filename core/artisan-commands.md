@@ -95,15 +95,15 @@ php artisan ichava::ichava-core.cleanup-logs --days=14        # override the ret
 php artisan ichava::ichava-core.cleanup-logs --dry-run        # report what would be deleted, change nothing
 ```
 
-### `ichava::ichava-core.icons:check-updates`
+### `ichava::ichava-core.check-updates`
 
 Reports whether any registered icon pack is behind its upstream source. Reads each pack's `upstream` block from its `config.json`, hits the declared `version_check_url` (npm registry, GitHub releases / tags, Packagist, or a custom URL), and prints a status table. Dispatches `IconPackUpdateAvailable` events for stale packs so host apps can wire Slack / email / dashboard notifications.
 
 ```bash
-php artisan ichava::ichava-core.icons:check-updates                              # table for every pack
-php artisan ichava::ichava-core.icons:check-updates --package=ichava/emoji-sets  # restrict to one pack
-php artisan ichava::ichava-core.icons:check-updates --format=json                # machine-readable
-php artisan ichava::ichava-core.icons:check-updates --fail-on-stale              # exit 1 if any pack is behind
+php artisan ichava::ichava-core.check-updates                              # table for every pack
+php artisan ichava::ichava-core.check-updates --package=ichava/emoji-sets  # restrict to one pack
+php artisan ichava::ichava-core.check-updates --format=json                # machine-readable
+php artisan ichava::ichava-core.check-updates --fail-on-stale              # exit 1 if any pack is behind
 ```
 
 | Arg / Flag | Effect |

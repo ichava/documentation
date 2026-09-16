@@ -109,7 +109,7 @@ add user-facing alerts beyond:
 
 - The `IconPackUpdateAvailable` Laravel event (informational; the
   host app subscribes if it wants a Slack / email / dashboard signal).
-- The `php artisan ichava::ichava-core.icons:check-updates` CLI (informational
+- The `php artisan ichava::ichava-core.check-updates` CLI (informational
   same).
 
 Composer + Packagist already handles the "your dependency has a new
@@ -120,7 +120,7 @@ would be scope creep without user demand.
 
 | Concern | End user does | Maintainer does |
 |---|---|---|
-| Discover that pack X is behind | `php artisan ichava::ichava-core.icons:check-updates` (informational only) | (irrelevant -- maintainer's CI does it automatically) |
+| Discover that pack X is behind | `php artisan ichava::ichava-core.check-updates` (informational only) | (irrelevant -- maintainer's CI does it automatically) |
 | Pull in new SVGs | `composer update ichava/<pack>` after we've tagged | Cron + sync orchestrator + PR + tag |
 | Subscribe to update events | `Listener` for `IconPackUpdateAvailable` in `EventServiceProvider` | n/a |
 | Override an icon locally | Drop a custom SVG in the host app's storage path; configure resolver | n/a |

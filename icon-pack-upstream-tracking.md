@@ -23,7 +23,7 @@ parses the response per source type, compares with `current_version`,
 and dispatches an `IconPackUpdateAvailable` event for every stale pack.
 Responses are cached for 12 hours (configurable) to dodge GitHub's
 60/hour unauthenticated rate limit. The CLI command `php artisan
-ichava::ichava-core.icons:check-updates` wraps the service for humans + CI.
+ichava::ichava-core.check-updates` wraps the service for humans + CI.
 
 ## Why this shape
 
@@ -123,13 +123,13 @@ public function handle(IconPackUpdateAvailable $event): void
 
 ```bash
 # Report on every registered pack
-php artisan ichava::ichava-core.icons:check-updates
+php artisan ichava::ichava-core.check-updates
 
 # Restrict to one
-php artisan ichava::ichava-core.icons:check-updates --package=ichava/emoji-sets
+php artisan ichava::ichava-core.check-updates --package=ichava/emoji-sets
 
 # Machine-readable for CI / cron
-php artisan ichava::ichava-core.icons:check-updates --format=json --fail-on-stale
+php artisan ichava::ichava-core.check-updates --format=json --fail-on-stale
 ```
 
 `--fail-on-stale` exits non-zero when any pack is behind, so a
@@ -139,7 +139,7 @@ scheduled CI job can fail-and-notify on drift.
 
 ```php
 // app/Console/Kernel.php
-$schedule->command('ichava::ichava-core.icons:check-updates --fail-on-stale')
+$schedule->command('ichava::ichava-core.check-updates --fail-on-stale')
     ->dailyAt('03:00')
     ->withoutOverlapping()
     ->onOneServer();

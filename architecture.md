@@ -157,7 +157,7 @@ Artisan commands:
 | `ichava::ichava-core.watch` | - |
 | `ichava::ichava-core.cleanup-logs` | - |
 | `ichava::ichava-core.make:icon-package` | - |
-| `ichava::ichava-core.icons:check-updates` | --package, --format=table\|json, --fail-on-stale |
+| `ichava::ichava-core.check-updates` | --package, --format=table\|json, --fail-on-stale |
 
 `InjectNpmScriptsCommand` lives in `ichava/browser`, not core.
 
