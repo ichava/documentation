@@ -53,7 +53,7 @@ If you want to rebuild the SPA yourself:
 php artisan ichava:inject-npm-scripts
 ```
 
-Adds `ichava:dev`, `ichava:build`, and `ichava:watch` to your host app's `package.json`. Run `npm run ichava:dev` for the Vite dev server with HMR, or `npm run ichava:build` for a production bundle.
+Adds `ichava:dev`, `ichava:build`, and `ichava::ichava-core.watch` to your host app's `package.json`. Run `npm run ichava:dev` for the Vite dev server with HMR, or `npm run ichava:build` for a production bundle.
 
 You only need this if you customise the SPA. End users running pre-built assets do not.
 

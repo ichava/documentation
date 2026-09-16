@@ -17,7 +17,7 @@ flowchart TB
     metronic["<b>ichava/metronic-icons</b><br/>501 icons<br/>PRIVATE"]
     flag["<b>ichava/flag-icons</b><br/>542 flags, 1x1 + 4x3"]
     emoji["<b>ichava/emoji-sets</b><br/>wiring only, no assets yet"]
-    third["<b>3rd-party packs</b><br/>via make:icon-package"]
+    third["<b>3rd-party packs</b><br/>via ichava::ichava-core.make:icon-package"]
     docs["<i>ichava/documentation</i><br/>markdown only"]
     meta["<i>ichava/ichava (planned)</i><br/>metapackage + landing"]
     toolkit["<b>ichava/maintainer-toolkit</b><br/>Docker-first Python tool<br/>refreshes vendored SVGs via PR<br/>(not installed by users)"]
@@ -150,14 +150,14 @@ Artisan commands:
 
 | Command | Sub-actions |
 |---|---|
-| `ichava:database` | seed, seed:icons, seed:terms, migrate, unseed, refresh, truncate, stats |
-| `ichava:cache` | clear, rebuild, refresh, generate, stats |
-| `ichava:info` | packages, icons, languages, discover, stats, status |
-| `ichava:job-status` | - |
-| `ichava:watch` | - |
-| `ichava:cleanup-logs` | - |
-| `make:icon-package` | - |
-| `ichava:icons:check-updates` | --package, --format=table\|json, --fail-on-stale |
+| `ichava::ichava-core.database` | seed, seed:icons, seed:terms, migrate, unseed, refresh, truncate, stats |
+| `ichava::ichava-core.cache` | clear, rebuild, refresh, generate, stats |
+| `ichava::ichava-core.info` | packages, icons, languages, discover, stats, status |
+| `ichava::ichava-core.job-status` | - |
+| `ichava::ichava-core.watch` | - |
+| `ichava::ichava-core.cleanup-logs` | - |
+| `ichava::ichava-core.make:icon-package` | - |
+| `ichava::ichava-core.icons:check-updates` | --package, --format=table\|json, --fail-on-stale |
 
 `InjectNpmScriptsCommand` lives in `ichava/browser`, not core.
 
@@ -276,7 +276,7 @@ Use `IchavaRegistrar` when a service provider manages multiple icon-set sub-dire
 
 ## Icon-package scaffolding
 
-`MakeIconPackageCommand` (`make:icon-package`) generates a child icon package from the stub tree at `core/stubs/icon-package/`. The scaffolder is built around three primitives:
+`MakeIconPackageCommand` (`ichava::ichava-core.make:icon-package`) generates a child icon package from the stub tree at `core/stubs/icon-package/`. The scaffolder is built around three primitives:
 
 1. **Auto-discovery walker.** A Symfony Finder walk treats every file under the stub tree (recursively, including dotfiles) as a stub. Adding or removing a stub is a one-step drop-in; there is no command-side file map to keep in sync.
 2. **Optional `.stub` suffix.** A trailing `.stub` is stripped on copy when present. Files without it (binary assets, `.editorconfig`) are copied verbatim.

@@ -52,7 +52,7 @@ Filter by pack, by variant or category, by name. Copy the path with one click.
 Optional, but recommended for production. Seeding builds a fast lookup index used by the search API and the Blade renderer.
 
 ```bash
-php artisan ichava:database seed --package=ichava/tabler-icons
+php artisan ichava::ichava-core.database seed --package=ichava/tabler-icons
 ```
 
 See [seeding pack icons](seeding-pack-icons.md).

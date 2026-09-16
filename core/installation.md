@@ -67,12 +67,12 @@ composer require ichava/tabler-icons:^0.1
 `ichava/bundled-icons` (121,314 icons) and `ichava/metronic-icons` (501) are **private**: they are
 part of the ecosystem but not distributable, so they are available only to accounts with access.
 
-Or build your own with `php artisan make:icon-package`. See [creating icon packages](creating-icon-packages.md).
+Or build your own with `php artisan ichava::ichava-core.make:icon-package`. See [creating icon packages](creating-icon-packages.md).
 
 ## 6. Seed the icon database
 
 ```bash
-php artisan ichava:database seed
+php artisan ichava::ichava-core.database seed
 ```
 
 Optional but recommended. The seeder builds the index used by the icon renderer and (if installed) the visual browser. See [database seeding](database-seeding.md).

@@ -38,7 +38,7 @@ Applied at provider registration so heavy operations (seeding 100k+ icons, batch
 | `ICHAVA_DATABASE_ENABLED` | `true` | Master switch for database-backed indexing | `ichava.database.enabled` |
 | `ICHAVA_AUTO_SYNC` | `true` | Watch for filesystem changes and re-sync | `ichava.database.auto_sync` |
 | `ICHAVA_SYNC_INTERVAL` | `60` | Seconds between filesystem fingerprint checks | `ichava.database.sync_interval` |
-| `ICHAVA_AUTO_SEED` | `false` | Auto-seed on package registration. Disabled by default; prefer `php artisan ichava:database seed` | `ichava.database.auto_seed` |
+| `ICHAVA_AUTO_SEED` | `false` | Auto-seed on package registration. Disabled by default; prefer `php artisan ichava::ichava-core.database seed` | `ichava.database.auto_seed` |
 | `ICHAVA_USE_QUEUE` | `true` | Run seeding via Laravel queue (recommended for large packs) | `ichava.database.use_queue` |
 | `ICHAVA_QUEUE_CONNECTION` | `null` | Override the queue connection used for seeding | `ichava.database.queue_connection` |
 | `ICHAVA_BATCH_SIZE` | `1000` | Icons per seeding job. Smaller = lower memory per job, more jobs | `ichava.database.batch_size` |

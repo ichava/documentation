@@ -13,11 +13,11 @@ Ichava stores icons in the database for fast searching and filtering. The seedin
 php artisan migrate
 
 # 2. Seed icons (required - not automatic)
-php artisan ichava:database seed
+php artisan ichava::ichava-core.database seed
 
 # Or combine with fresh migration
 php artisan migrate:fresh --force
-php artisan ichava:database seed
+php artisan ichava::ichava-core.database seed
 ```
 
 ### How It Works
@@ -30,7 +30,7 @@ php artisan ichava:database seed
 
 ```mermaid
 flowchart TD
-    cmd["php artisan ichava:database seed"]
+    cmd["php artisan ichava::ichava-core.database seed"]
     lock{"cache lock<br/>ichava:seeding:&lt;pkg&gt;<br/>(10 min TTL)"}
     scan["Scan SVG directory<br/>(IconRegistry resolves path)"]
     chunk["Split into chunks<br/>(ichava.database.batch_size, default 1000)"]
@@ -93,25 +93,25 @@ Icons are only updated when changes are detected:
 
 ```bash
 # Seed all packages (uses queue by default)
-php artisan ichava:database seed
+php artisan ichava::ichava-core.database seed
 
 # Seed synchronously (no queue, for testing)
-php artisan ichava:database seed --sync
+php artisan ichava::ichava-core.database seed --sync
 
 # Seed specific package
-php artisan ichava:database seed --package=vendor/your-icons
+php artisan ichava::ichava-core.database seed --package=vendor/your-icons
 
 # Force update ALL icons (even unchanged)
-php artisan ichava:database seed --update
+php artisan ichava::ichava-core.database seed --update
 
 # Combine flags
-php artisan ichava:database seed --sync --update
+php artisan ichava::ichava-core.database seed --sync --update
 
 # Fresh start (drop tables + re-seed)
-php artisan ichava:database refresh --force
+php artisan ichava::ichava-core.database refresh --force
 
 # Check statistics
-php artisan ichava:database stats
+php artisan ichava::ichava-core.database stats
 ```
 
 ### Seeding Statistics
@@ -145,7 +145,7 @@ php artisan horizon
 
 ```bash
 # Via Artisan
-php artisan ichava:job-status
+php artisan ichava::ichava-core.job-status
 
 # Via Horizon Dashboard
 https://example.com/horizon
@@ -189,7 +189,7 @@ Auto-seeding on package registration is **disabled by default**. This prevents:
 **Recommended approach - use explicit seeding commands:**
 
 ```bash
-php artisan ichava:database seed           # Recommended
+php artisan ichava::ichava-core.database seed           # Recommended
 php artisan migrate:fresh --seed           # With migrations
 ```
 

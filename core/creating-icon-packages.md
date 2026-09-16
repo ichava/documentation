@@ -6,16 +6,16 @@
 
 There are two paths to a publishable icon package:
 
-1. **Recommended, scaffold with `make:icon-package`** (next section). Generates
+1. **Recommended, scaffold with `ichava::ichava-core.make:icon-package`** (next section). Generates
    a complete, production-ready package from the stub tree in seconds. Use this
    for almost every new package.
 2. **Manual**, if you need a layout the stubs don't cover, follow the section
    "Authoring a package by hand" later on.
 
-### Recommended path. `make:icon-package`
+### Recommended path. `ichava::ichava-core.make:icon-package`
 
 ```bash
-php artisan make:icon-package
+php artisan ichava::ichava-core.make:icon-package
 ```
 
 The interactive command walks every file under `stubs/icon-package/` and emits
@@ -32,7 +32,7 @@ package is `composer install`-ready; just drop SVG files into
 > (`ichava-tabler-icons`, `ichava-bundled-icons`, `ichava-metronic-icons`).
 > The interactive prompt defaults to `base_path("ichava-{kebabName}-icons")`.
 
-The full flag reference is in [Artisan Commands → `make:icon-package`](artisan-commands.md#makeicon-package).
+The full flag reference is in [Artisan Commands → `ichava::ichava-core.make:icon-package`](artisan-commands.md#ichavaichava-coremakeicon-package).
 
 #### How the scaffolder works
 
@@ -140,7 +140,7 @@ To add a new file to the scaffold:
 1. Drop it into your stubs tree (with or without a `.stub` suffix).
 2. Use `{{token}}` placeholders anywhere, including the filename and any
    intermediate directory segments.
-3. Run `php artisan make:icon-package`, the new file appears in the output
+3. Run `php artisan ichava::ichava-core.make:icon-package`, the new file appears in the output
    automatically. No code changes required.
 
 To remove a file from the scaffold, just delete it from the stubs tree.
@@ -149,7 +149,7 @@ To remove a file from the scaffold, just delete it from the stubs tree.
 
 ### Authoring a package by hand
 
-If `make:icon-package` doesn't fit (for example you're porting an existing
+If `ichava::ichava-core.make:icon-package` doesn't fit (for example you're porting an existing
 library with a non-standard layout), the package can be assembled manually.
 The minimum requirements are unchanged from the auto-generated version.
 

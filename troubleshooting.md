@@ -10,17 +10,17 @@ Common issues across the Ichava ecosystem and how to fix them. Anything specific
 
 ```bash
 # Check whether icons are in the database
-php artisan ichava:database stats
+php artisan ichava::ichava-core.database stats
 
 # Confirm via Tinker
 php artisan tinker
 >>> \Simtabi\Laranail\Ichava\Models\Icon::count()
 
 # Manually seed
-php artisan ichava:database seed --sync
+php artisan ichava::ichava-core.database seed --sync
 ```
 
-If `count()` is zero, the seeder hasn't run yet for any installed pack. Run `ichava:database seed --package=<vendor>/<pack>` per pack, or omit `--package` to seed every installed pack.
+If `count()` is zero, the seeder hasn't run yet for any installed pack. Run `ichava::ichava-core.database seed --package=<vendor>/<pack>` per pack, or omit `--package` to seed every installed pack.
 
 ## Queue jobs aren't processing
 
@@ -58,13 +58,13 @@ php artisan tinker
 Expected behaviour. The seeder skips icons whose `file_hash` matches what's already in the database, since their tags and keywords haven't changed either. Force a full re-seed:
 
 ```bash
-php artisan ichava:database seed --update
+php artisan ichava::ichava-core.database seed --update
 ```
 
 To wipe and re-seed from scratch:
 
 ```bash
-php artisan ichava:database refresh --force
+php artisan ichava::ichava-core.database refresh --force
 ```
 
 `refresh --force` is destructive (drops Ichava tables, re-runs migrations, re-seeds).
@@ -76,11 +76,11 @@ php artisan ichava:database refresh --force
 php artisan optimize:clear
 
 # Ichava-only caches
-php artisan ichava:cache clear
-php artisan ichava:cache rebuild
+php artisan ichava::ichava-core.cache clear
+php artisan ichava::ichava-core.cache rebuild
 ```
 
-The Ichava manifest is rebuilt by `ichava:cache rebuild`. In production, set `ICHAVA_MANIFEST_AUTO_REBUILD=false` and run rebuild on deploy instead.
+The Ichava manifest is rebuilt by `ichava::ichava-core.cache rebuild`. In production, set `ICHAVA_MANIFEST_AUTO_REBUILD=false` and run rebuild on deploy instead.
 
 ## Where the logs go
 
@@ -102,7 +102,7 @@ php artisan tinker
 >>> $icon?->svg_content
 ```
 
-If `$icon` is null, the icon isn't seeded. If `svg_content` is null, the source file is missing on disk; re-run `ichava:database seed --update` to refresh it.
+If `$icon` is null, the icon isn't seeded. If `svg_content` is null, the source file is missing on disk; re-run `ichava::ichava-core.database seed --update` to refresh it.
 
 ## Concurrent seeding errors
 
@@ -115,11 +115,11 @@ php artisan tinker
 
 Replace `vendor/your-icons` with the actual package you're trying to seed.
 
-## `make:icon-package` problems
+## `ichava::ichava-core.make:icon-package` problems
 
 | Symptom | Likely cause | Fix |
 |---|---|---|
-| Generated package has `IconsIcons` in class names | You typed `HeroIcons` (with the suffix) instead of `Hero`. The stubs append the literal `Icons` suffix themselves. | Re-run with the bare short name: `php artisan make:icon-package Hero`. |
+| Generated package has `IconsIcons` in class names | You typed `HeroIcons` (with the suffix) instead of `Hero`. The stubs append the literal `Icons` suffix themselves. | Re-run with the bare short name: `php artisan ichava::ichava-core.make:icon-package Hero`. |
 | Composer name is `your company/...` (with a space) | A vendor with spaces ended up in `{{vendorLower}}` somewhere. | Use `{{vendorKebab}}` for any composer-name or URL context. |
 | `Class ... not found` after `composer install` | The psr-4 namespace key in `composer.json` doesn't match the file's `namespace` declaration. | Both should derive from `{{namespace}}` (or `{{namespaceEscaped}}` in JSON). Re-scaffold or align manually. |
 | Multi-variant scaffold has `getDefaultVariant() === null` | `config.json` was edited and the `default: true` flag was removed from every variant. | Set `default: true` on exactly one variant, or rely on the `array_key_first()` fallback. |
@@ -141,7 +141,7 @@ Should print the directory you expected. If it points at `storage/logs/` despite
 
 Confirm three things:
 
-1. At least one icon pack is installed and seeded: `php artisan ichava:info packages`
+1. At least one icon pack is installed and seeded: `php artisan ichava::ichava-core.info packages`
 2. The browser config picks up the right prefix: `php artisan tinker`, then `config('ichava.core.prefix')` should match `/{prefix}/icons` in the URL.
 3. The Vite dist assets were published: `ls public/vendor/ichava/assets/`. If empty, run `php artisan vendor:publish --tag=ichava-assets`.
 

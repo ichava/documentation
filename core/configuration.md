@@ -101,7 +101,7 @@ return [
 
 | Goal | Edit |
 |---|---|
-| Speed up cold renders in production | Set `manifest.enabled=true`, run `php artisan ichava:cache rebuild` |
+| Speed up cold renders in production | Set `manifest.enabled=true`, run `php artisan ichava::ichava-core.cache rebuild` |
 | Stop the file watcher | `database.auto_sync=false` |
 | Force-disable seeding via queue | `database.use_queue=false` |
 | Change the log retention | `logging.retention_days=14` |
