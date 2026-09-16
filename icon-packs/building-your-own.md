@@ -4,20 +4,20 @@
 
 *Tutorial.*
 
-You can ship your own icon pack as a Composer package and have it work alongside `ichava/tabler-icons` and the others. The fastest path is the `make:icon-package` scaffolder shipped with `ichava/core`.
+You can ship your own icon pack as a Composer package and have it work alongside `ichava/tabler-icons` and the others. The fastest path is the `ichava::ichava-core.make:icon-package` scaffolder shipped with `ichava/core`.
 
 ## 1. Run the scaffolder
 
 In a host Laravel app that has `ichava/core` installed:
 
 ```bash
-php artisan make:icon-package
+php artisan ichava::ichava-core.make:icon-package
 ```
 
 Or non-interactively:
 
 ```bash
-php artisan make:icon-package Hero \
+php artisan ichava::ichava-core.make:icon-package Hero \
     --vendor=Acme \
     --email=team@acme.test \
     --prefix=hi \
@@ -28,7 +28,7 @@ php artisan make:icon-package Hero \
 
 You get a complete package: `composer.json`, service provider, constants class, variant enum, Blade component, update command, `config.json`, README, CHANGELOG, LICENSE, `phpunit.xml.dist`, and a `docs/` directory pre-populated with vendor-specific stubs.
 
-See [`make:icon-package` reference](../core/creating-icon-packages.md) for every flag and token.
+See [`ichava::ichava-core.make:icon-package` reference](../core/creating-icon-packages.md) for every flag and token.
 
 ## 2. Drop in your SVGs
 
@@ -90,7 +90,7 @@ Every Ichava pack follows the same shape:
 
 ## See also
 
-- [`make:icon-package` flag reference](../core/creating-icon-packages.md)
+- [`ichava::ichava-core.make:icon-package` flag reference](../core/creating-icon-packages.md)
 - [Icon path format](../core/icon-path-format.md)
 - [Database seeding](../core/database-seeding.md)
 - [Custom icon sets (in-app, no package)](../core/custom-icon-sets.md)

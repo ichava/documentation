@@ -82,7 +82,7 @@ Documentation is grouped by repo. Cross-cutting topics (architecture, security, 
 - [Database seeding](core/database-seeding.md), queue-backed seeder + dedup
 - [Database support](core/databases.md), SQLite / PostgreSQL / MySQL / MariaDB and what differs
 - [Custom icon sets](core/custom-icon-sets.md), in-app sets without a package
-- [Creating icon packages](core/creating-icon-packages.md), the `make:icon-package` scaffolder
+- [Creating icon packages](core/creating-icon-packages.md), the `ichava::ichava-core.make:icon-package` scaffolder
 
 ### `ichava/browser` (HTTP layer)
 
@@ -123,7 +123,7 @@ Pack-specific content (variants, attribution, customisation) lives inside each p
     └── attribution.md upstream license + credits
 ```
 
-Pack docs link back to this directory for shared concerns. When you build your own pack with `make:icon-package`, the scaffolder generates `docs/` for you.
+Pack docs link back to this directory for shared concerns. When you build your own pack with `ichava::ichava-core.make:icon-package`, the scaffolder generates `docs/` for you.
 
 Examples:
 

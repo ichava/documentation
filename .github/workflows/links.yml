@@ -1,0 +1,86 @@
+name: Links
+
+# This repo is markdown and nothing else, and until now nothing verified it.
+# Every page footers back to a sibling with a relative link, so a renamed or
+# moved file breaks the docs silently -- there is no build to fail.
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '**/*.md'
+      - '.github/workflows/links.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # The gate. Offline, so it is deterministic: no network, no flake, and a red
+  # run always means a link in this repo is genuinely wrong.
+  #
+  # --include-fragments also resolves the `#anchor` half against the target
+  # file's headings, which is the half that rots quietest: renaming a heading
+  # leaves the link resolving to the right page and the wrong place.
+  # ---------------------------------------------------------------------------
+  internal:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    name: Internal links and anchors
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Check relative links and heading anchors
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --offline
+            --include-fragments
+            --no-progress
+            --verbose
+            './**/*.md'
+          fail: true
+
+  # ---------------------------------------------------------------------------
+  # External links, on demand only.
+  #
+  # Deliberately not a pull-request check. The docs cite `example.com` and
+  # `{version}` placeholders by design, three of the repos they link to are
+  # private and answer 404 to any checker, and the rest depend on other people's
+  # uptime. Gating a typo fix on that would teach everyone to ignore a red tick.
+  # Run it by hand when the external surface matters.
+  # ---------------------------------------------------------------------------
+  external:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    name: External links (on demand)
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Check external links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          # Raises the github.com rate limit from anonymous to authenticated.
+          token: ${{ secrets.GITHUB_TOKEN }}
+          args: >-
+            --no-progress
+            --verbose
+            --max-retries 3
+            --max-concurrency 8
+            --accept 200,206,429
+            --exclude '^https?://example\.com'
+            --exclude '\{version\}|\{codepoint\}'
+            --exclude '^https://github\.com/\.\.\.'
+            --exclude '/blob/main/\.\.\.'
+            --exclude '^https://github\.com/ichava/(bundled-icons|metronic-icons|react-browser)'
+            './**/*.md'
+          fail: true
