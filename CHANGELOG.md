@@ -5,6 +5,35 @@ All notable changes to the Ichava documentation follow [Keep a Changelog](https:
 This repository ships prose rather than code, so a version here marks a state of the documentation
 rather than a release anyone installs.
 
+## [0.2.0] - 2026-09-16
+
+### Added
+
+- `core/databases.md` — which database drivers are supported and what differs between them:
+  PostgreSQL gets indexed full-text search, the rest take a portable `LIKE` path, and MySQL
+  `FULLTEXT` is deliberately unused because `innodb_ft_min_token_size` silently drops queries
+  shorter than three characters.
+- A link gate. Every page footers back to a sibling with a relative link, so a renamed file
+  broke the docs silently — there was no build to fail. `lychee --offline --include-fragments`
+  now runs on every markdown pull request and resolves the `#anchor` half too. External links
+  are a separate on-demand job: the docs cite `example.com` and `{version}` placeholders by
+  design and three linked repos are private, so gating a typo fix on them would teach everyone
+  to ignore a red tick.
+- `release.yml` — a `v*.*.*` tag publishes a release from that version's CHANGELOG section, and
+  fails closed when the section is missing.
+
+### Changed
+
+- Every Artisan command is documented under its namespaced name. The bare names are gone rather
+  than aliased, so the old spellings named commands that no longer exist.
+- Third-party GitHub Actions pinned to the commit SHA of their latest release; `actions/*` float.
+
+### Fixed
+
+- `creating-icon-packages.md` linked `artisan-commands.md#make-icon-package`, but GitHub drops
+  the colon when it builds a heading slug, so the anchor was `#makeicon-package` and the link
+  had been landing at the top of the page. Found by the new link gate on its first run.
+
 ## [0.1.0] - 2026-08-31
 
 First open-source release, alongside every other package in the ecosystem.
