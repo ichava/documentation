@@ -103,6 +103,7 @@ For the visual icon browser at `/ichava/icons` and the REST API, install [`ichav
 
 - [Configuration](configuration.md)
 - [Environment variables](environment.md)
+- [Database support](databases.md)
 - [Database seeding](database-seeding.md)
 - [Browser package installation](../browser/installation.md)
 - [Troubleshooting](../troubleshooting.md)

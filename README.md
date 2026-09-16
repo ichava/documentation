@@ -80,6 +80,7 @@ Documentation is grouped by repo. Cross-cutting topics (architecture, security, 
 - [Global helper](core/global-helper.md), the `ichava()` fluent function
 - [Artisan commands](core/artisan-commands.md), every `ichava:*` command
 - [Database seeding](core/database-seeding.md), queue-backed seeder + dedup
+- [Database support](core/databases.md), SQLite / PostgreSQL / MySQL / MariaDB and what differs
 - [Custom icon sets](core/custom-icon-sets.md), in-app sets without a package
 - [Creating icon packages](core/creating-icon-packages.md), the `make:icon-package` scaffolder
 
