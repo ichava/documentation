@@ -32,7 +32,7 @@ package is `composer install`-ready; just drop SVG files into
 > (`ichava-tabler-icons`, `ichava-bundled-icons`, `ichava-metronic-icons`).
 > The interactive prompt defaults to `base_path("ichava-{kebabName}-icons")`.
 
-The full flag reference is in [Artisan Commands → `make:icon-package`](artisan-commands.md#make-icon-package).
+The full flag reference is in [Artisan Commands → `make:icon-package`](artisan-commands.md#makeicon-package).
 
 #### How the scaffolder works
 
